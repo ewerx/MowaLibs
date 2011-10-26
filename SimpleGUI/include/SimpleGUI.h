@@ -30,13 +30,21 @@
 #include <vector>
 #include "cinder/app/App.h"
 #include "cinder/Text.h"
-#include "cinder/gl/Texture.h"
-
 
 using namespace ci;
 using namespace ci::app;
 
 namespace mowa { namespace sgui {
+    
+    
+namespace cinder
+{
+    namespace gl
+    {
+        class Texture;        
+        class GlslProg;        
+    }
+}
 	
 //-----------------------------------------------------------------------------
 	
@@ -70,7 +78,6 @@ private:
 	void	init(App* app);	
     
 public:
-//    static gl::TextureFontRef textureFont:
 	static ColorA darkColor;
 	static ColorA lightColor;
 	static ColorA bgColor;
