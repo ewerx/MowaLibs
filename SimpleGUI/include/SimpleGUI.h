@@ -32,6 +32,7 @@
 #include "cinder/Text.h"
 #include "cinder/gl/Texture.h"
 
+
 using namespace ci;
 using namespace ci::app;
 
@@ -53,7 +54,9 @@ class ColorVarControl;
 	
 //-----------------------------------------------------------------------------
 
-class SimpleGUI {
+    
+class SimpleGUI 
+    {
 private:
 	bool enabled;
 	Vec2f	mousePos;
@@ -65,7 +68,9 @@ private:
 	CallbackId  cbMouseDrag;	
 
 	void	init(App* app);	
+    
 public:
+//    static gl::TextureFontRef textureFont:
 	static ColorA darkColor;
 	static ColorA lightColor;
 	static ColorA bgColor;
@@ -81,6 +86,8 @@ public:
 		RGB,
 		HSV
 	};
+        
+
 public:
 	SimpleGUI(App* app);
 	~SimpleGUI();
