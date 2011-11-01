@@ -207,7 +207,6 @@ public:
         
         if( texId > 0 )
         {
-            glEnable( GL_TEXTURE_2D );
             glBindTexture( GL_TEXTURE_2D, texId );
             programTex.bind();
             glBindAttribLocation( programTex.getHandle(), (GLuint)AttrPosition, "in_Position" );
@@ -226,7 +225,7 @@ public:
         }
         
         glBindVertexArray( vaoId );
-        glDrawArrays( GL_TRIANGLES, 0, 6*3 );
+        glDrawArrays( GL_TRIANGLES, 0, 6 );
         glBindVertexArray( 0 );
         
         
