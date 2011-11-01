@@ -6,8 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef SubaruAnimPrototype_1_GLColorQuad__h
-#define SubaruAnimPrototype_1_GLColorQuad__h
+#pragma once
+
 
 #include "cinder/gl/gl.h"
 #include "cinder/gl/GlslProg.h"
@@ -242,6 +242,3 @@ public:
     }
     
 };
-
-
-#endif
