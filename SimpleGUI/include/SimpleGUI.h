@@ -117,7 +117,7 @@ public:
 	IntVarControl*		addParam(const std::string& paramName, int* var, int min=0, int max=1, int defaultValue = 0);
 	BoolVarControl*		addParam(const std::string& paramName, bool* var, bool defaultValue = false, int groupId = -1);
     EnumVarControl*		addParam(const std::string& paramName, int* var, std::vector<std::string>& enumOptions);
-	ColorVarControl*	addParam(const std::string& paramName, ci::ColorA* var, ci::ColorA const defaultValue = ci::ColorA(0.0f, 1.0f, 1.0f, 1.0f), int colorModel = RGB);
+	ColorVarControl*	addParam(const std::string& paramName, ci::ColorA* var, ci::ColorA const defaultValue = ci::ColorA(1.0f, 1.0f, 1.0f, 1.0f), int colorModel = RGB);
     Vec2fVarControl*    addParam(const std::string& paramName, float* var, const ci::Vec2f& min =ci::Vec2f::zero(), const ci::Vec2f& max =ci::Vec2f(1.0f,1.0f));
     Vec3fVarControl*    addParam(const std::string& paramName, float* var, const ci::Vec3f& min =ci::Vec3f::zero(), const ci::Vec3f& max =ci::Vec3f(1.0f,1.0f,1.0f));
     Vec4fVarControl*    addParam(const std::string& paramName, float* var, const ci::Vec4f& min =ci::Vec4f::zero(), const ci::Vec4f& max =ci::Vec4f(1.0f,1.0f,1.0f,1.0f));
@@ -166,6 +166,7 @@ public:
 	Control(Type name, const std::string& label);	
 	virtual ~Control() {};
 	void setBackgroundColor(ci::ColorA color);
+    void setLabel( const std::string& label );
 
 	void notifyUpdateListeners();
 	virtual ci::Vec2f draw(ci::Vec2f pos) = 0;
@@ -175,7 +176,7 @@ public:
 	virtual void onMouseUp(ci::app::MouseEvent event) {};
 	virtual void onMouseDrag(ci::app::MouseEvent event) {};
 	virtual void onMouseWheel(ci::app::MouseEvent event) {};
-    virtual void updateLabel( const std::string& label );
+    virtual void updateLabel();
 };
 
 
@@ -202,8 +203,10 @@ public:
 	T* var;
 	T min;
 	T max;
+    T defaultValue;
 public:
 	NumberVarControl(Control::Type type, const std::string& name, T* var, T min=0, T max=1, T defaultValue = 0);
+    void updateLabel();
 	float getNormalizedValue();
 	void setNormalizedValue(const float value, const bool silent =false);
 	ci::Vec2f draw(ci::Vec2f pos);
@@ -272,6 +275,7 @@ public:
     T* var;
     T max[_size];
     T min[_size];
+    T defaultValue[_size];
     ci::Rectf	elementArea[_size];
     int		activeTrack;
 public:

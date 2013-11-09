@@ -428,7 +428,7 @@ Control::Control(Control::Type _type, const std::string& _name)
 {
 	bgColor = ColorA(0,0,0,0.5);
     activeArea = Rectf(0.0f,0.0f,0.0f,0.0f);
-    updateLabel(name);
+    setLabel(name);
 }
 
 void Control::setBackgroundColor(ColorA color) {
@@ -444,7 +444,12 @@ bool CallbackControl::triggerCallback() {
     return handled;
 }
     
-void Control::updateLabel( const std::string& label )
+void Control::updateLabel()
+{
+    setLabel(this->name);
+}
+    
+void Control::setLabel( const std::string& label )
 {
     TextLayout layout;
     layout.clear( ColorA( 0.0f, 0.0f, 0.0f, 0.0f ) );
@@ -464,10 +469,17 @@ NumberVarControl<T>::NumberVarControl(Control::Type type, const std::string& nam
 	this->var = var;
 	this->min = min;
 	this->max = max;
+    this->defaultValue = *var;
     
+    updateLabel();
+}
+    
+template<typename T>
+void NumberVarControl<T>::updateLabel()
+{
     std::stringstream ss;
-    ss <<  name << " " << *this->var;
-    updateLabel( ss.str() );
+    ss << name << " " << *this->var;
+    setLabel( ss.str() );
 }
 	
 template<typename T>
@@ -484,9 +496,7 @@ void NumberVarControl<T>::setNormalizedValue(const float value, const bool silen
         {
             triggerCallback();
         }
-        std::stringstream ss;
-        ss <<  name << " " << *this->var;
-        updateLabel( ss.str() );
+        updateLabel();
 	}
 }
     
@@ -532,14 +542,19 @@ template<typename T>
 void NumberVarControl<T>::fromString(std::string& strValue) {
 	*var = boost::lexical_cast<T>(strValue);
     triggerCallback();
-    std::stringstream ss;
-	ss <<  name << " " << *this->var;
-    updateLabel( ss.str() );
+    updateLabel();
 }
 	
 template<typename T>
 void NumberVarControl<T>::onMouseDown(MouseEvent event) {
-	onMouseDrag(event);	
+    if (event.isRight()) {
+        // right-click restores default/initial value
+        *var = this->defaultValue;
+        triggerCallback();
+        updateLabel();
+    } else {
+        onMouseDrag(event);
+    }
 }
 
 template<typename T>
@@ -556,9 +571,7 @@ void NumberVarControl<T>::onMouseWheel(MouseEvent event) {
     float newValue = *var + delta;
 	*var = math<float>::clamp(newValue,min,max);
 	triggerCallback();
-    std::stringstream ss;
-    ss <<  name << " " << *this->var;
-    updateLabel( ss.str() );
+    updateLabel();
 }
     
 // needed for definining template base class functions in cpp
@@ -676,9 +689,7 @@ void EnumVarControl::onMouseDown(MouseEvent event) {
         if (elementAreas[i].contains(event.getPos())) {
             *this->var = i;
             triggerCallback();
-            std::stringstream ss;
-            ss <<  name << " " << *this->var;
-            updateLabel( ss.str() );
+            updateLabel();
             break;
         }
     }
@@ -699,6 +710,7 @@ VectorVarControl<T,_size>::VectorVarControl(const std::string& name, T* var, T m
     {
         this->min[i] = min[i];
         this->max[i] = max[i];
+        this->defaultValue[i] = var[i];
     }
     activeTrack = 0;
 }
@@ -798,7 +810,13 @@ void VectorVarControl<T,_size>::onMouseDown(MouseEvent event) {
             break;
         }
     }
-    onMouseDrag(event);
+    if (event.isRight()) {
+        // restore default/initial value on right-click
+        var[activeTrack] = defaultValue[activeTrack];
+        triggerCallback();
+    } else {
+        onMouseDrag(event);
+    }
 }
 
 template <typename T, unsigned int _size>
