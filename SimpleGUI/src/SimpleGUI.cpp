@@ -540,7 +540,8 @@ std::string NumberVarControl<T>::toString() {
 
 template<typename T>
 void NumberVarControl<T>::fromString(std::string& strValue) {
-	*var = boost::lexical_cast<T>(strValue);
+	T val = boost::lexical_cast<T>(strValue);
+    *var = math<T>::clamp(val, this->min, this->max);
     triggerCallback();
     updateLabel();
 }
