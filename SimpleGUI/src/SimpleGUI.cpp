@@ -799,6 +799,7 @@ void VectorVarControl<T,_size>::fromString(std::string& strValue) {
     {
         var[i] = boost::lexical_cast<double>(strs[i]);
     }
+    triggerCallback();
 }
 
 template <typename T, unsigned int _size>
@@ -954,7 +955,8 @@ void ColorVarControl::fromString(std::string& strValue) {
 	var->r = boost::lexical_cast<double>(strs[0]);
 	var->g = boost::lexical_cast<double>(strs[1]);	
 	var->b = boost::lexical_cast<double>(strs[2]);	
-	var->a = boost::lexical_cast<double>(strs[3]);	
+	var->a = boost::lexical_cast<double>(strs[3]);
+    triggerCallback();
 }
 	
 	
