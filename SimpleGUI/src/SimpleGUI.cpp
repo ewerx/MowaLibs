@@ -80,10 +80,10 @@ void SimpleGUI::init(App* app) {
     textFont = Font("PF Tempesta Seven",8);
     SimpleGUI::textureFont = ci::gl::TextureFont::create( textFont );
 	selectedControl = NULL;
-	cnMouseDown = app->getWindow()->getSignalMouseDown().connect( std::bind( &SimpleGUI::onMouseDown, this, std::_1 ) );
-	cnMouseUp = app->getWindow()->getSignalMouseUp().connect( std::bind( &SimpleGUI::onMouseUp, this, std::_1 ) );
-	cnMouseDrag = app->getWindow()->getSignalMouseDrag().connect( std::bind( &SimpleGUI::onMouseDrag, this, std::_1 ) );
-    cnMouseWheel = app->getWindow()->getSignalMouseWheel().connect( std::bind( &SimpleGUI::onMouseWheel, this, std::_1 ) );
+	cnMouseDown = app->getWindow()->getSignalMouseDown().connect( std::bind( &SimpleGUI::onMouseDown, this, std::placeholders::_1 ) );
+	cnMouseUp = app->getWindow()->getSignalMouseUp().connect( std::bind( &SimpleGUI::onMouseUp, this, std::placeholders::_1 ) );
+	cnMouseDrag = app->getWindow()->getSignalMouseDrag().connect( std::bind( &SimpleGUI::onMouseDrag, this, std::placeholders::_1 ) );
+    cnMouseWheel = app->getWindow()->getSignalMouseWheel().connect( std::bind( &SimpleGUI::onMouseWheel, this, std::placeholders::_1 ) );
 }
 
 FloatVarControl* SimpleGUI::addParam(const std::string& paramName, float* var, float min, float max, float defaultValue) {
