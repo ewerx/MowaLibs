@@ -1198,7 +1198,7 @@ Vec2f TextureVarControl::draw(Vec2f pos) {
 	
 	Vec2f textureSize;
 	textureSize.x = math<float>::floor(SimpleGUI::sliderSize.x * scale + SimpleGUI::spacing * (scale - 1));
-	textureSize.y = math<float>::floor(textureSize.x / var->getAspectRatio());
+	textureSize.y = math<float>::max( 32.0f, math<float>::floor(textureSize.x / var->getAspectRatio()) );
 	activeArea = Rectf(pos.x, pos.y, pos.x + textureSize.x, pos.y + textureSize.y);	
 	gl::color(SimpleGUI::bgColor);
 	gl::drawSolidRect(Rectf(
